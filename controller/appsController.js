@@ -1,10 +1,10 @@
 const appModel = require("../model/appModels.js")
-require(`dotenv`);
+require(`dotenv`).config();
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
 const sendMail = require(`../helpers/email.js`);
 const {
-    signUpTemplate,
+    signUpTemplate, 
     verifyTemplate,
     forgotPasswordTemplate,
 } = require(`../helpers/html.js`);
@@ -31,9 +31,10 @@ const signUp = async (req, res) => {
 
             const userToken = jwt.sign(
                 { id: user._id, email: user.email },
-                process.env.jwt_secret,
+                process.env.JWT_SECRET,
                 { expiresIn: "30 Minutes" }
             );
+             
             const verifyLink = `${req.protocol}://${req.get(
                 "host"
             )}/api/v1/user/verify/${userToken}`;
@@ -51,7 +52,7 @@ const signUp = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({
-            message: error.message,
+            message: error.message 
         });
     }
 };
@@ -312,7 +313,7 @@ const makeAdmin = async(req, res)=> {
         const {userId} = req.params
         const user = await appModel.findById(userId)
         if(!user){
-            return res.status(404).json(`User with ID ${userId} was not found`)
+            return res.status(404).json(`User with this particular ID ${userId}  not found`)
         }
         user.isAdmin = true
         await user.save()
