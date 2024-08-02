@@ -1,17 +1,16 @@
 const appModel = require("../model/appModels.js")
-require(`dotenv`).config();
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
 const sendMail = require(`../helpers/email.js`);
 const {
     signUpTemplate, 
     verifyTemplate,
-    forgotPasswordTemplate,
+    forgotPasswordTemplate, 
 } = require(`../helpers/html.js`);
 
 const signUp = async (req, res) => {
     try {
-        // check if user exists
+        // check if user exists  
         const { fullName, email, password } = req.body;
 
         const emailExist = await appModel.findOne({ email });
