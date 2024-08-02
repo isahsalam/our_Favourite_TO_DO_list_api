@@ -12,6 +12,12 @@ const signUp = async (req, res) => {
     try {
         // check if user exists  
         const { fullName, email, password } = req.body;
+               
+         if(!fullName||!email||!password){
+            return res.status(400).json({
+                message:`please enter all details`
+            })
+         }
 
         const emailExist = await appModel.findOne({ email });
         if (emailExist) {
